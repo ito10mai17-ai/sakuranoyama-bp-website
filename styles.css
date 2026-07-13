@@ -555,17 +555,17 @@ figure { margin: 0; }
     max-width: 100%;
     min-width: 0;
     padding-left: 12px;
-    font-size: clamp(27px,7.2vw,31px);
-    line-height: 1.28;
-    word-break: normal;
-    overflow-wrap: anywhere;
+    font-size: clamp(24px,6.6vw,30px);
+    line-height: 1.32;
+    word-break: keep-all;
+    overflow-wrap: normal;
   }
   .hero h1::before { width: 6px; top: .12em; bottom: .14em; }
   .hero h1 span {
     display: block;
     margin-top: 6px;
-    word-break: normal;
-    overflow-wrap: anywhere;
+    word-break: keep-all;
+    overflow-wrap: normal;
   }
   .hero-teacher-badge {
     width: 100%;
@@ -669,7 +669,7 @@ figure { margin: 0; }
 
 @media (max-width: 420px) {
   .site-logo__text strong { font-size: 13px; }
-  .hero h1 { font-size: clamp(26px,7vw,29px); }
+  .hero h1 { font-size: clamp(23px,6.2vw,27px); }
   .hero-copy { padding-inline: 14px; }
   .hero-photo { min-height: 280px; }
   .line-cta { font-size: 16px; padding-inline: 14px; }
