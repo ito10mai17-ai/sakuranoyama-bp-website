@@ -519,13 +519,8 @@ figure { margin: 0; }
   .header-line-button { display: none; }
   .hero { padding: 20px 0 32px; overflow: hidden; }
   .hero-shell { grid-template-columns: 1fr; gap: 18px; min-height: 0; }
-  .hero-photo {
-    width: 100%;
-    min-height: 300px;
-    max-height: 430px;
-    border-radius: 24px;
-  }
   .hero-copy {
+    order: 1;
     width: 100%;
     max-width: 100%;
     min-width: 0;
@@ -533,6 +528,13 @@ figure { margin: 0; }
     border: 1px solid rgba(231,70,139,.18);
     border-radius: 24px;
     overflow: hidden;
+  }
+  .hero-photo {
+    order: 2;
+    width: 100%;
+    min-height: 300px;
+    max-height: 430px;
+    border-radius: 24px;
   }
   .hero-pills {
     display: grid;
