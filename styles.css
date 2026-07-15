@@ -517,7 +517,7 @@ figure { margin: 0; }
   .site-logo__text strong { font-size: 14px; }
   .site-logo__text small { display: none; }
   .header-line-button { display: none; }
-  .hero { padding: 20px 0 32px; overflow: hidden; }
+  .hero { padding: 18px 0 28px; overflow: hidden; }
   .hero-shell { grid-template-columns: 1fr; gap: 18px; min-height: 0; }
   .hero-copy {
     order: 1;
@@ -530,11 +530,7 @@ figure { margin: 0; }
     overflow: hidden;
   }
   .hero-photo {
-    order: 2;
-    width: 100%;
-    min-height: 300px;
-    max-height: 430px;
-    border-radius: 24px;
+    display: none;
   }
   .hero-pills {
     display: grid;
