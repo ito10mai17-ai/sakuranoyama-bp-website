@@ -6,6 +6,25 @@
   <meta name="description" content="桜山ベストプラクティスの小中高生向け夏休みマンツーマン学習サポート。講師が1対1でレッスンを行いながら、夏休みの宿題と2学期の準備を進めます。">
   <title>夏休みマンツーマン学習サポート｜桜山ベストプラクティス</title>
   <link rel="stylesheet" href="./styles.css">
+
+  <style>
+    /* Link click fix: keep real buttons/logos above decorative layers */
+    .site-logo,
+    .actions,
+    .actions a,
+    .primary,
+    .secondary,
+    .footer a {
+      position: relative;
+      z-index: 20;
+      pointer-events: auto;
+    }
+
+    .visual,
+    .visual * {
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
   <main class="summer-page">
