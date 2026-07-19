@@ -8,7 +8,13 @@
   <link rel="stylesheet" href="./styles.css">
 
   <style>
-    /* Tap fix: decorative layers must never block buttons */
+    /* Final tap fix */
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
     .visual,
     .visual *,
     .sun,
@@ -24,47 +30,65 @@
       pointer-events: none !important;
     }
 
-    .site-logo,
+    .topbar,
+    .content,
+    .copy,
     .actions,
     .actions a,
-    .primary,
-    .secondary,
+    .site-logo,
     .footer a,
     .summer-fixed-actions,
     .summer-fixed-actions a {
       position: relative !important;
-      z-index: 9999 !important;
+      z-index: 2147483000 !important;
       pointer-events: auto !important;
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: rgba(0,0,0,.08);
+      touch-action: manipulation !important;
+      -webkit-tap-highlight-color: rgba(0,0,0,.12);
+    }
+
+    .actions {
+      margin-top: 24px !important;
+      margin-bottom: 72px !important;
+    }
+
+    .actions a {
+      cursor: pointer !important;
+      min-height: 56px !important;
+    }
+
+    .footer {
+      position: relative !important;
+      z-index: 1 !important;
+      pointer-events: auto !important;
     }
 
     .summer-fixed-actions {
       position: fixed !important;
-      left: 12px !important;
-      right: 12px !important;
-      bottom: max(12px, env(safe-area-inset-bottom)) !important;
+      left: 16px !important;
+      right: 16px !important;
+      bottom: max(14px, env(safe-area-inset-bottom)) !important;
       display: grid !important;
       grid-template-columns: 1fr 1fr !important;
       gap: 10px !important;
       padding: 10px !important;
-      border-radius: 18px !important;
-      background: rgba(255,255,255,.94) !important;
-      box-shadow: 0 10px 30px rgba(11,46,103,.18) !important;
-      backdrop-filter: blur(10px);
+      border-radius: 20px !important;
+      background: rgba(255,255,255,.96) !important;
+      box-shadow: 0 12px 34px rgba(15,46,75,.2) !important;
+      backdrop-filter: blur(12px);
     }
 
     .summer-fixed-actions a {
       display: grid !important;
       place-items: center !important;
-      min-height: 48px !important;
+      min-height: 52px !important;
       padding: 10px 8px !important;
-      border-radius: 14px !important;
+      border-radius: 15px !important;
       font-weight: 900 !important;
-      font-size: 14px !important;
+      font-size: 15px !important;
       line-height: 1.25 !important;
       text-align: center !important;
       text-decoration: none !important;
+      cursor: pointer !important;
     }
 
     .summer-fixed-actions__normal {
@@ -79,18 +103,19 @@
       border: 2px solid #06c755 !important;
     }
 
-    @media (min-width: 761px) {
-      .summer-fixed-actions {
-        display: none !important;
-      }
-    }
-
     @media (max-width: 760px) {
       body {
-        padding-bottom: 94px !important;
+        padding-bottom: 96px !important;
       }
-      .actions a {
-        min-height: 54px;
+
+      .summer-fixed-actions {
+        left: 10px !important;
+        right: 10px !important;
+      }
+
+      .summer-fixed-actions a {
+        min-height: 50px !important;
+        font-size: 14px !important;
       }
     }
   </style>
@@ -99,7 +124,7 @@
   <main class="summer-page">
     <section class="panel" aria-labelledby="summer-title">
       <header class="topbar">
-        <a class="site-logo" href="https://sakurayama-bestpractice.com/" aria-label="桜山ベストプラクティス通常ページへ">
+        <a class="site-logo" href="https://sakurayama-bestpractice.com/" data-force-url="https://sakurayama-bestpractice.com/" aria-label="桜山ベストプラクティス通常ページへ">
           <img class="site-logo__image" src="./logo.png" alt="桜山ベストプラクティス ロゴ">
           <span class="site-logo__text">
             <strong>桜山ベストプラクティス</strong>
@@ -144,11 +169,11 @@
           </ul>
 
           <div class="actions">
-            <a id="normal-lp-link" class="primary" href="https://sakurayama-bestpractice.com/">
+            <a id="normal-lp-link" class="primary" href="https://sakurayama-bestpractice.com/" data-force-url="https://sakurayama-bestpractice.com/">
               通常コース・塾の詳細を見る
               <span aria-hidden="true">→</span>
             </a>
-            <a id="line-link" class="secondary" href="https://lin.ee/RKEljXL" target="_blank" rel="noopener noreferrer">
+            <a id="line-link" class="secondary" href="https://lin.ee/RKEljXL" target="_blank" rel="noopener noreferrer" data-force-url="https://lin.ee/RKEljXL">
               <span class="line-chip">LINE</span>
               <span>日程・空き状況を確認</span>
             </a>
@@ -180,35 +205,39 @@
     </section>
   </main>
 
+  <div class="summer-fixed-actions" aria-label="固定リンク">
+    <a class="summer-fixed-actions__normal" href="https://sakurayama-bestpractice.com/" data-force-url="https://sakurayama-bestpractice.com/">通常LPを見る</a>
+    <a class="summer-fixed-actions__line" href="https://lin.ee/RKEljXL" target="_blank" rel="noopener noreferrer" data-force-url="https://lin.ee/RKEljXL">LINEで相談</a>
+  </div>
+
+
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      document.querySelectorAll('[data-force-url], #normal-lp-link, #line-link, .site-logo').forEach(function (el) {
-        var url = el.getAttribute('data-force-url') || el.getAttribute('href');
+    (function () {
+      function go(url) {
         if (!url) return;
+        if (url.indexOf('lin.ee') !== -1) {
+          window.open(url, '_blank', 'noopener');
+        } else {
+          window.location.assign(url);
+        }
+      }
 
-        el.addEventListener('click', function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-
-          if (url.indexOf('lin.ee') !== -1) {
-            window.open(url, '_blank', 'noopener');
-          } else {
-            window.location.href = url;
-          }
-        }, true);
-
-        el.addEventListener('touchend', function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-
-          if (url.indexOf('lin.ee') !== -1) {
-            window.open(url, '_blank', 'noopener');
-          } else {
-            window.location.href = url;
-          }
-        }, true);
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('[data-force-url]').forEach(function (el) {
+          var url = el.getAttribute('data-force-url') || el.getAttribute('href');
+          el.addEventListener('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            go(url);
+          }, true);
+          el.addEventListener('touchend', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            go(url);
+          }, true);
+        });
       });
-    });
+    })();
   </script>
 
 </body>
