@@ -8,21 +8,90 @@
   <link rel="stylesheet" href="./styles.css">
 
   <style>
-    /* Link click fix: keep real buttons/logos above decorative layers */
+    /* Tap fix: decorative layers must never block buttons */
+    .visual,
+    .visual *,
+    .sun,
+    .lesson-card,
+    .teacher-bubble,
+    .book,
+    .pencil,
+    .bubble,
+    .panel::before,
+    .panel::after,
+    .content::before,
+    .content::after {
+      pointer-events: none !important;
+    }
+
     .site-logo,
     .actions,
     .actions a,
     .primary,
     .secondary,
-    .footer a {
-      position: relative;
-      z-index: 20;
-      pointer-events: auto;
+    .footer a,
+    .summer-fixed-actions,
+    .summer-fixed-actions a {
+      position: relative !important;
+      z-index: 9999 !important;
+      pointer-events: auto !important;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(0,0,0,.08);
     }
 
-    .visual,
-    .visual * {
-      pointer-events: none;
+    .summer-fixed-actions {
+      position: fixed !important;
+      left: 12px !important;
+      right: 12px !important;
+      bottom: max(12px, env(safe-area-inset-bottom)) !important;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 10px !important;
+      padding: 10px !important;
+      border-radius: 18px !important;
+      background: rgba(255,255,255,.94) !important;
+      box-shadow: 0 10px 30px rgba(11,46,103,.18) !important;
+      backdrop-filter: blur(10px);
+    }
+
+    .summer-fixed-actions a {
+      display: grid !important;
+      place-items: center !important;
+      min-height: 48px !important;
+      padding: 10px 8px !important;
+      border-radius: 14px !important;
+      font-weight: 900 !important;
+      font-size: 14px !important;
+      line-height: 1.25 !important;
+      text-align: center !important;
+      text-decoration: none !important;
+    }
+
+    .summer-fixed-actions__normal {
+      color: #0b2e67 !important;
+      background: #fff !important;
+      border: 2px solid #0b2e67 !important;
+    }
+
+    .summer-fixed-actions__line {
+      color: #fff !important;
+      background: #06c755 !important;
+      border: 2px solid #06c755 !important;
+    }
+
+    @media (min-width: 761px) {
+      .summer-fixed-actions {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 760px) {
+      body {
+        padding-bottom: 94px !important;
+      }
+      .actions a {
+        min-height: 54px;
+      }
     }
   </style>
 </head>
@@ -75,11 +144,11 @@
           </ul>
 
           <div class="actions">
-            <a class="primary" href="https://sakurayama-bestpractice.com/">
+            <a id="normal-lp-link" class="primary" href="https://sakurayama-bestpractice.com/">
               通常コース・塾の詳細を見る
               <span aria-hidden="true">→</span>
             </a>
-            <a class="secondary" href="https://lin.ee/RKEljXL" target="_blank" rel="noopener noreferrer">
+            <a id="line-link" class="secondary" href="https://lin.ee/RKEljXL" target="_blank" rel="noopener noreferrer">
               <span class="line-chip">LINE</span>
               <span>日程・空き状況を確認</span>
             </a>
@@ -110,5 +179,37 @@
       </footer>
     </section>
   </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('[data-force-url], #normal-lp-link, #line-link, .site-logo').forEach(function (el) {
+        var url = el.getAttribute('data-force-url') || el.getAttribute('href');
+        if (!url) return;
+
+        el.addEventListener('click', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          if (url.indexOf('lin.ee') !== -1) {
+            window.open(url, '_blank', 'noopener');
+          } else {
+            window.location.href = url;
+          }
+        }, true);
+
+        el.addEventListener('touchend', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          if (url.indexOf('lin.ee') !== -1) {
+            window.open(url, '_blank', 'noopener');
+          } else {
+            window.location.href = url;
+          }
+        }, true);
+      });
+    });
+  </script>
+
 </body>
 </html>
